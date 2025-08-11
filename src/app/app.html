@@ -1,4 +1,4 @@
-<main class="main">
+<main class="main" [class.no-scroll]="modalOpen">
   <div class="content">
     <div class="left-side">
       <h1>Hello, {{ title() }}</h1>
@@ -24,12 +24,17 @@
       </select>
     </div>
 
-    <div class="divider" role="separator" aria-label="Divider"></div>
+    <hr class="divider" aria-label="Divider"/>
 
     <div class="right-side">
       <div class="pill-group">
         @for (user of render_users; track user.id) {
-          <div>
+          <div
+            class="user-card"
+            role="button"
+            tabindex="0"
+            (click)="openModal(user)"
+            (keyup.enter)="openModal(user)">
             <p>{{ user.name }}</p>
             <p>{{ user.email }}</p>
             <p>{{ user.active ? "Активен" : "Не активен" }}</p>
@@ -39,3 +44,30 @@
     </div>
   </div>
 </main>
+
+<div
+  class="modal-backdrop"
+  *ngIf="modalOpen"
+  (click)="closeModal()"
+  aria-hidden="true">
+</div>
+
+<dialog
+  class="modal"
+  *ngIf="modalOpen"
+  aria-modal="true"
+  aria-labelledby="emailModalTitle"
+  (keydown.escape)="closeModal()"
+  (click)="closeModal()">
+
+  <div class="modal-card" (click)="$event.stopPropagation()">
+    <h2 id="emailModalTitle">Email пользователя</h2>
+    <p class="modal-email">{{ selectedEmail }}</p>
+
+    <div class="modal-actions">
+      <button type="button" class="modal-close" (click)="closeModal()">
+        Закрыть
+      </button>
+    </div>
+  </div>
+</dialog>

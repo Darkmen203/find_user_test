@@ -20,19 +20,15 @@ $bp-mobile: 900px;
   --muted: oklch(80% 0.01 300);
   --hairline: color-mix(in oklch, var(--gray-500) 35%, transparent);
 
-  --red-to-pink-to-purple-vertical-gradient: linear-gradient(
-    180deg,
-    var(--orange-red) 0%,
-    var(--vivid-pink) 50%,
-    var(--electric-violet) 100%
-  );
+  --red-to-pink-to-purple-vertical-gradient: linear-gradient(180deg,
+      var(--orange-red) 0%,
+      var(--vivid-pink) 50%,
+      var(--electric-violet) 100%);
 
-  --red-to-pink-to-purple-horizontal-gradient: linear-gradient(
-    90deg,
-    var(--orange-red) 0%,
-    var(--vivid-pink) 50%,
-    var(--electric-violet) 100%
-  );
+  --red-to-pink-to-purple-horizontal-gradient: linear-gradient(90deg,
+      var(--orange-red) 0%,
+      var(--vivid-pink) 50%,
+      var(--electric-violet) 100%);
 
   --accent: var(--bright-blue);
 
@@ -58,6 +54,7 @@ main {
   min-height: 100dvh;
   display: grid;
   place-items: start;
+  scrollbar-gutter: stable;
   padding: 1.5rem;
   background: color-mix(in oklch, var(--bg) 95%, white 5%);
 }
@@ -149,7 +146,7 @@ h1 {
   gap: 1rem;
   align-items: start;
 
-  > div {
+  >div {
     border: 1px solid var(--hairline);
     background: color-mix(in oklch, var(--bg) 96%, white 4%);
     padding: 0.9rem 1rem;
@@ -178,20 +175,29 @@ h1 {
         linear-gradient(#000 0 0);
       -webkit-mask-composite: xor;
       mask-composite: exclude;
-      background: linear-gradient(
-        180deg,
-        var(--accent),
-        color-mix(in oklch, var(--accent) 35%, transparent)
-      );
+      background: linear-gradient(180deg,
+          var(--accent),
+          color-mix(in oklch, var(--accent) 35%, transparent));
       opacity: 0.9;
     }
 
-    &:nth-child(6n + 1) { --accent: var(--bright-blue); }
-    &:nth-child(6n + 2) { --accent: var(--electric-violet); }
-    &:nth-child(6n + 3) { --accent: var(--french-violet); }
+    &:nth-child(6n + 1) {
+      --accent: var(--bright-blue);
+    }
+
+    &:nth-child(6n + 2) {
+      --accent: var(--electric-violet);
+    }
+
+    &:nth-child(6n + 3) {
+      --accent: var(--french-violet);
+    }
+
     &:nth-child(6n + 4),
     &:nth-child(6n + 5),
-    &:nth-child(6n + 6) { --accent: var(--hot-red); }
+    &:nth-child(6n + 6) {
+      --accent: var(--hot-red);
+    }
 
     p:first-child {
       font-weight: 700;
@@ -250,6 +256,102 @@ h1 {
 }
 
 @keyframes cardIn {
-  from { opacity: 0; transform: translateY(6px) scale(0.98); }
-  to   { opacity: 1; transform: translateY(0) scale(1); }
+  from {
+    opacity: 0;
+    transform: translateY(6px) scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.user-card {
+  cursor: pointer;
+}
+
+.main.no-scroll {
+  height: 100dvh;
+  overflow: hidden;
+}
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: color-mix(in oklch, black 60%, transparent);
+  z-index: 1000;
+}
+
+.modal {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: color-mix(in oklch, var(--bg) 90%, white 10%);
+  border: 1px solid var(--hairline);
+  border-radius: 16px;
+  padding: 1.25rem 1.25rem 1rem;
+  z-index: 1001;
+}
+
+.modal-card {
+
+  width: min(520px, 92vw);
+  max-height: min(80vh, 720px);
+  overflow: auto;
+  box-shadow:
+    0 10px 30px color-mix(in oklch, var(--electric-violet) 10%, transparent),
+    0 2px 8px color-mix(in oklch, black 10%, transparent);
+  animation: modalIn .16s ease-out both;
+
+  h2 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.25rem;
+    color: var(--text);
+  }
+
+  .modal-email {
+    font-size: 1rem;
+    color: var(--text);
+    margin: 0 0 1rem 0;
+    word-break: break-all;
+  }
+
+  .modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+  }
+
+  .modal-close {
+    border: 1px solid var(--hairline);
+    background: color-mix(in oklch, var(--bg) 96%, white 4%);
+    color: var(--text);
+    padding: 0.5rem 0.9rem;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: box-shadow .2s ease;
+
+    &:hover {
+      box-shadow: 0 0 0 3px color-mix(in oklch, var(--accent) 20%, transparent);
+    }
+
+    &:focus-visible {
+      outline: 3px solid color-mix(in oklch, var(--accent) 30%, transparent);
+      outline-offset: 2px;
+    }
+  }
+}
+
+@keyframes modalIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px) scale(.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
